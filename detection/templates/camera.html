@@ -81,7 +81,7 @@ function captureAndSend() {
         const formData = new FormData();
         formData.append("image", blob, "frame.jpg");
 
-        fetch("/detect/api/", {
+        fetch("/api/", {
             method: "POST",
             body: formData
         })

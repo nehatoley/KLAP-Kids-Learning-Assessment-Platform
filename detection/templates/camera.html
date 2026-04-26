@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Scanner</title>
+</head>
+<body>
+
+<h2>📷 Show an object</h2>
+
+<div style="position: relative; width: 400px;">
+    <video id="video" width="400" autoplay></video>
+
+    <!-- 🔥 Overlay -->
+    <div id="overlay" style="
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:rgba(0,0,0,0.5);
+        color:white;
+        font-size:20px;
+        cursor:pointer;
+        display:none;
+    ">
+        Tap to Scan Again
+    </div>
+</div>
+
+<p id="result"></p>
+
+<script>
+const video = document.getElementById('video');
+const resultText = document.getElementById('result');
+const overlay = document.getElementById("overlay");
+
+let stream = null;
+
+// 🎧 Speak
+function speak(text) {
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "en-US";
+    window.speechSynthesis.speak(speech);
+}
+
+// ▶ START CAMERA + AUTO SCAN
+function startCamera() {
+    navigator.mediaDevices.getUserMedia({ video: true })
+    .then(s => {
+        stream = s;
+        video.srcObject = stream;
+
+        // 🔥 auto scan after 3 sec
+        setTimeout(() => {
+            captureAndSend();
+        }, 3000);
+    });
+}
+
+// ⛔ STOP CAMERA
+function stopCamera() {
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+    }
+}
+
+// 📸 Capture + send
+function captureAndSend() {
+
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    canvas.getContext('2d').drawImage(video, 0, 0);
+
+    canvas.toBlob(blob => {
+        const formData = new FormData();
+        formData.append("image", blob, "frame.jpg");
+
+        fetch("/detect/api/", {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            if (data.detected.length > 0) {
+                let obj = data.detected.join(", ");
+
+                resultText.innerText = "Detected: " + obj;
+                speak("This is " + obj);
+
+                stopCamera();          // 🔥 stop after detect
+                showOverlay();         // 🔥 show tap screen
+            } else {
+                    speak("No object detected");
+
+                    stopCamera();     // camera band
+                    showOverlay();    // tap to scan again
+                  }
+
+        });
+    });
+}
+
+// 🔥 SHOW TAP SCREEN
+function showOverlay() {
+    overlay.style.display = "flex";
+}
+
+// 🔥 TAP TO SCAN AGAIN
+overlay.onclick = function() {
+    overlay.style.display = "none";
+    startCamera();
+};
+
+// 🚀 AUTO START
+window.onload = function() {
+    speak("Show an object");
+    startCamera();
+};
+</script>
+
+</body>
+</html>

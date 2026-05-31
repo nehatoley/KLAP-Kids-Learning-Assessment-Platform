@@ -11,14 +11,14 @@ Performance tracking and reporting
 Technologies Used
 
 Python
+
 YOLOv8 (Ultralytics)
+
 OpenCV
+
 Flask
+
 SQLite/MySQL
+
 pyttsx3 (Text-to-Speech)
 
-Applications
-
-Early childhood education
-Interactive learning systems
-AI-powered assessment platforms

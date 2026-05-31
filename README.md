@@ -7,7 +7,9 @@ Assessment and quiz module for evaluating learning outcomes
 Voice-based feedback for detected objects
 Parent and teacher dashboards for progress monitoring
 Performance tracking and reporting
+
 Technologies Used
+
 Python
 YOLOv8 (Ultralytics)
 OpenCV
@@ -16,6 +18,7 @@ SQLite/MySQL
 pyttsx3 (Text-to-Speech)
 
 Applications
+
 Early childhood education
 Interactive learning systems
 AI-powered assessment platforms

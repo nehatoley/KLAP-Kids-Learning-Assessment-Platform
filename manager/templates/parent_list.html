@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Parents</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/manager.css' %}">
+
+    <style>
+
+        .parent-grid{
+
+            display:grid;
+
+            grid-template-columns:
+            repeat(auto-fit,minmax(320px,1fr));
+
+            gap:25px;
+
+            margin-top:30px;
+        }
+
+        .parent-card{
+
+            background:white;
+
+            border-radius:20px;
+
+            padding:25px;
+
+            box-shadow:
+            0 8px 20px rgba(0,0,0,0.08);
+
+            transition:0.3s;
+        }
+
+        .parent-card:hover{
+
+            transform:translateY(-5px);
+        }
+
+        .parent-avatar{
+
+            width:70px;
+
+            height:70px;
+
+            border-radius:50%;
+
+            background:
+            linear-gradient(
+                to right,
+                #6a5af9,
+                #4f46e5
+            );
+
+            color:white;
+
+            display:flex;
+
+            align-items:center;
+
+            justify-content:center;
+
+            font-size:28px;
+
+            font-weight:bold;
+
+            margin-bottom:15px;
+        }
+
+        .parent-name{
+
+            font-size:26px;
+
+            margin-bottom:8px;
+
+            color:#222;
+        }
+
+        .parent-email{
+
+            color:#666;
+
+            margin-bottom:18px;
+        }
+
+        .divider{
+
+            height:1px;
+
+            background:#ddd;
+
+            margin:18px 0;
+        }
+
+        .children-btn{
+
+            background:
+            linear-gradient(
+                to right,
+                #6a5af9,
+                #4f46e5
+            );
+
+            color:white;
+
+            border:none;
+
+            padding:12px 18px;
+
+            border-radius:12px;
+
+            cursor:pointer;
+
+            font-weight:600;
+
+            transition:0.3s;
+        }
+
+        .children-btn:hover{
+
+            transform:scale(1.03);
+        }
+
+        .children-list{
+
+            display:none;
+
+            margin-top:20px;
+        }
+
+        .child-box{
+
+            background:#f5f7ff;
+
+            border-radius:15px;
+
+            padding:15px;
+
+            margin-bottom:15px;
+        }
+
+        .child-box h4{
+
+            margin-bottom:12px;
+
+            color:#4f46e5;
+        }
+
+        .child-detail{
+
+            margin:7px 0;
+
+            color:#444;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="manager-navbar">
+
+    <a href="{% url 'manager_dashboard' %}"
+       class="manager-logo">
+
+        KLAP
+
+    </a>
+
+    <div class="nav-links">
+
+        <a href="{% url 'logout' %}"
+           class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     MAIN CONTAINER
+========================= -->
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="manager-header">
+
+        <h2 class="title">
+
+            👨‍👩‍👧 Parents
+
+        </h2>
+
+        <div class="count-box">
+
+            Total: {{ parents|length }}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PARENT GRID -->
+
+    <div class="parent-grid">
+
+        {% for parent in parents %}
+
+        <div class="parent-card">
+
+
+            <!-- AVATAR -->
+
+            <div class="parent-avatar">
+
+                {{ parent.username|slice:":1"|upper }}
+
+            </div>
+
+
+            <!-- USERNAME -->
+
+            <h3 class="parent-name">
+
+                {{ parent.username }}
+
+            </h3>
+
+
+            <!-- EMAIL -->
+
+            <p class="parent-email">
+
+                {{ parent.email }}
+
+            </p>
+
+
+            <div class="divider"></div>
+
+
+            <!-- BUTTON -->
+
+            <button
+                onclick="toggleChildren('{{ parent.id }}')"
+                class="children-btn"
+            >
+
+                👶 View Children
+
+            </button>
+
+
+            <!-- CHILDREN LIST -->
+
+            <div
+                id="children-{{ parent.id }}"
+                class="children-list"
+            >
+
+                {% for child in parent.children.all %}
+                <div class="child-box">
+
+                    <h4>
+
+                        👶 {{ child.name }}
+
+                    </h4>
+
+                    <p class="child-detail">
+
+                        🎂 Age:
+                        <b>{{ child.age }}</b>
+
+                    </p>
+
+                    <p class="child-detail">
+
+                        📊 Total Learned:
+                        <b>{{ child.total_learned }}</b>
+
+                    </p>
+
+                    <p class="child-detail">
+
+                        ⚠ Weak Areas:
+                        <b>{{ child.weak_areas }}</b>
+
+                    </p>
+
+                    <p class="child-detail">
+
+                        📝 Tests Given:
+                        <b>{{ child.total_tests }}</b>
+
+                    </p>
+
+                    <p class="child-detail">
+
+                        ⭐ Latest Score:
+                        <b>{{ child.latest_score }}%</b>
+
+                    </p>
+
+                </div>
+
+                {% empty %}
+
+                <div class="child-box">
+
+                    No Children Found
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <p>No parents found.</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+function toggleChildren(parentId) {
+
+    const section =
+        document.getElementById(
+            "children-" + parentId
+        );
+
+    if (
+        section.style.display === "none" ||
+        section.style.display === ""
+    ) {
+
+        section.style.display = "block";
+
+    }
+
+    else {
+
+        section.style.display = "none";
+
+    }
+}
+
+</script>
+
+</body>
+</html>

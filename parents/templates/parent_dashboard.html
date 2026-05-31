@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Parent Dashboard</title>
+
+    <link rel="stylesheet" href="{% static 'css/parent.css' %}">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="parent-navbar">
+
+    <a href="/parent/parent-dashboard/" class="parent-logo">
+        KLAP
+    </a>
+
+    <a href="/logout/" class="logout-btn">
+        Logout
+    </a>
+
+</div>
+
+
+<!-- HEADER -->
+
+<div class="dashboard-header">
+
+    <div>
+
+        <h1>
+            👨‍👩‍👧 Parent Dashboard
+        </h1>
+
+        <h3 class="welcome-text">
+            Welcome, {{ request.user.username }}
+        </h3>
+
+    </div>
+
+    <a href="/parent/add-child/" class="add-btn">
+        ➕ Add Child
+    </a>
+
+</div>
+
+<!-- CHILDREN -->
+
+<div class="children-container">
+
+    {% for child in children %}
+
+    <div class="child-card">
+
+        <div class="child-icon">
+            👶
+        </div>
+
+        <h2>
+            {{ child.name }}
+        </h2>
+
+        <p class="learned">
+            📊 Learned:
+            <span>{{ child.total_learned }}</span>
+        </p>
+
+        <p class="weak">
+            ⚠ Weak Areas:
+            <span>{{ child.weak_areas }}</span>
+        </p>
+
+
+        <!-- ACTIONS -->
+
+        <div class="actions">
+
+
+            <!-- CATEGORY -->
+
+            <div class="category-wrapper">
+
+                <label class="category-label">
+                    📂 Choose Category To Scan
+                </label>
+
+                <div class="custom-select-box">
+
+                    <select
+                        class="category-select"
+                        onchange="updateScanLink(this, {{ child.id }})"
+                    >
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="fruit">
+                            🍎 Fruits
+                        </option>
+
+                        <option value="animal">
+                            🐶 Animals
+                        </option>
+
+                        <option value="vegetable">
+                            🥦 Vegetables
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- SCAN -->
+
+            <a
+                href="#"
+                id="scan-btn-{{ child.id }}"
+                class="btn scan-btn disabled-btn"
+            >
+
+                📷 Scan
+
+            </a>
+
+
+            <!-- LEARNING -->
+
+            <a
+                href="/parent/learning/{{ child.id }}/"
+                class="btn learn-btn"
+            >
+
+                📚 Learning
+
+            </a>
+
+
+            <!-- QUIZ -->
+
+            <a
+                href="/parent/quiz/start/{{ child.id }}/"
+                class="btn quiz-btn"
+            >
+
+                🧠 Quiz
+
+            </a>
+            <a
+                href="/parent/scores/{{ child.id }}/"
+                class=" score-btn"
+            >
+                📊 Scores
+            </a>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="empty-box">
+
+        <h3>
+            No Child Added Yet
+        </h3>
+
+        <p>
+            Add your child to start learning 🚀
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+<script>
+
+function updateScanLink(selectBox, childId){
+
+    const category =
+        selectBox.value;
+
+    const scanBtn =
+        document.getElementById(
+            "scan-btn-" + childId
+        );
+
+    if(category){
+
+        scanBtn.href =
+            "/detect/camera/?category="
+            + category
+            + "&child_id="
+            + childId;
+
+        scanBtn.classList.remove(
+            "disabled-btn"
+        );
+    }
+
+    else{
+
+        scanBtn.href = "#";
+
+        scanBtn.classList.add(
+            "disabled-btn"
+        );
+    }
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+names:
+- Bell-Pepper
+- Broccoli
+- Cabbage
+- Carrot
+- Cucumber
+- Garlic
+- Mushroom
+- Onion
+- Pepper
+- Potato
+- Tomato
+nc: 11
+roboflow:
+  license: CC BY 4.0
+  project: bitirme-abrpx-fethb
+  url: https://universe.roboflow.com/sakshi-kandalkar-s-workspace/bitirme-abrpx-fethb/dataset/1
+  version: 1
+  workspace: sakshi-kandalkar-s-workspace
+test: ../test/images
+train: ../train/images
+val: ../valid/images

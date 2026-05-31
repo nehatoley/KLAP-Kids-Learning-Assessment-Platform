@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 19
+names: ['Raspberry', 'Red pomegranate', 'apple', 'avocado', 'banana', 'blueberry', 'cherry', 'coconut', 'green grapes', 'guava', 'kiwi', 'litchi', 'mango', 'orange', 'papaya', 'pear', 'pineapple', 'strawberry', 'watermelon']
+
+roboflow:
+  workspace: sejals-workspace-tunyv
+  project: fruit-xrx4i-lsptj
+  version: 1
+  license: Public Domain
+  url: https://universe.roboflow.com/sejals-workspace-tunyv/fruit-xrx4i-lsptj/dataset/1

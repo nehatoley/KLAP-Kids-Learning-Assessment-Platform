@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Learning Quiz</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/teacher.css' %}">
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="teacher-navbar">
+
+    <a href="/teacher/teacher_dashboard/"
+       class="teacher-logo">
+
+       KLAP
+
+    </a>
+
+    <a href="/logout/"
+       class="logout-btn">
+
+       Logout
+
+    </a>
+
+</div>
+
+
+
+<!-- =========================
+     QUIZ CONTAINER
+========================= -->
+
+<div class="teacher-container">
+
+    <div class="quiz-card">
+
+        <h2>
+            🧠 Question {{ index }} / {{ total }}
+        </h2>
+
+        <p class="question">
+
+            {{ question.question_text }}
+
+        </p>
+
+
+        <!-- IMAGE QUESTION -->
+
+        {% if question.question_type == "image_question" %}
+
+            <img
+                src="{{ question.image.url }}"
+                class="quiz-image"
+            >
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            action="{% url 'submit_test' student.id %}"
+        >
+
+            {% csrf_token %}
+
+            <input
+                type="hidden"
+                name="question_id"
+                value="{{ question.id }}"
+            >
+
+
+            <!-- TEXT QUESTIONS -->
+
+            {% if question.question_type == "text" or question.question_type == "image_question" %}
+
+                <button
+                    type="submit"
+                    name="answer"
+                    value="{{ question.option1 }}"
+                    class="option-btn"
+                    onclick="showPraise(); speak('{{ question.option1 }}')"
+                    onmouseover="speakDelayed('{{ question.option1 }}')"
+                >
+
+                    {{ question.option1 }}
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    name="answer"
+                    value="{{ question.option2 }}"
+                    class="option-btn"
+                    onclick="showPraise(); speak('{{ question.option2 }}')"
+                    onmouseover="speakDelayed('{{ question.option2 }}')"
+                >
+
+                    {{ question.option2 }}
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    name="answer"
+                    value="{{ question.option3 }}"
+                    class="option-btn"
+                    onclick="showPraise(); speak('{{ question.option3 }}')"
+                    onmouseover="speakDelayed('{{ question.option3 }}')"
+                >
+
+                    {{ question.option3 }}
+
+                </button>
+
+            {% endif %}
+
+
+            <!-- IMAGE OPTIONS -->
+
+            {% if question.question_type == "image_option" %}
+
+                <div class="image-options">
+
+
+                    <button
+                        type="submit"
+                        name="answer"
+                        value="{{ question.option1 }}"
+                        class="image-btn"
+                        onclick="showPraise(); speak('{{ question.option1 }}')"
+                    >
+
+                        <img
+                            src="{{ question.option1_image.url }}"
+                        >
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        name="answer"
+                        value="{{ question.option2 }}"
+                        class="image-btn"
+                        onclick="showPraise(); speak('{{ question.option2 }}')"
+                    >
+
+                        <img
+                            src="{{ question.option2_image.url }}"
+                        >
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        name="answer"
+                        value="{{ question.option3 }}"
+                        class="image-btn"
+                        onclick="showPraise(); speak('{{ question.option3 }}')"
+                    >
+
+                        <img
+                            src="{{ question.option3_image.url }}"
+                        >
+
+                    </button>
+
+                </div>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- PRAISE POPUP -->
+
+<div id="popup"
+     class="popup">
+
+</div>
+
+
+
+<script>
+
+function speak(text) {
+
+    if (!text) return;
+
+    const speech =
+        new SpeechSynthesisUtterance(text);
+
+    speech.lang = "en-US";
+
+    speech.rate = 0.8;
+
+    window.speechSynthesis.cancel();
+
+    window.speechSynthesis.speak(speech);
+}
+
+
+let timeout;
+
+function speakDelayed(text) {
+
+    clearTimeout(timeout);
+
+    timeout = setTimeout(() => {
+
+        speak(text);
+
+    }, 300);
+}
+
+
+const praises = [
+
+    "🎉 Good Job!",
+
+    "🌟 Excellent!",
+
+    "👏 Very Good!",
+
+    "🥳 Amazing!",
+
+    "🚀 Super Smart!"
+];
+
+
+function showPraise(){
+
+    const popup =
+        document.getElementById("popup");
+
+    const randomPraise =
+        praises[
+            Math.floor(
+                Math.random() * praises.length
+            )
+        ];
+
+    popup.innerText =
+        randomPraise;
+
+    popup.classList.add("show");
+
+    const speech =
+        new SpeechSynthesisUtterance(
+            randomPraise
+        );
+
+    speech.lang = "en-US";
+
+    speech.rate = 0.9;
+
+    window.speechSynthesis.speak(speech);
+
+    setTimeout(() => {
+
+        popup.classList.remove("show");
+
+    }, 2000);
+}
+
+
+window.onload = function() {
+
+    speak(
+        "{{ question.question_text }}"
+    );
+};
+
+</script>
+
+</body>
+
+</html>

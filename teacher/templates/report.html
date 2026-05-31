@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Teacher Report Dashboard</title>
+
+<link rel="stylesheet"
+      href="{% static 'css/teacher.css' %}">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Segoe UI',sans-serif;
+
+    background:
+    linear-gradient(
+        135deg,
+        #eef2ff 0%,
+        #dbeafe 40%,
+        #ede9fe 100%
+    );
+
+    min-height:100vh;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.teacher-navbar{
+
+    width:100%;
+
+    background:white;
+
+    padding:20px 50px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    box-shadow:
+    0 4px 20px rgba(0,0,0,0.06);
+}
+
+.teacher-logo{
+
+    text-decoration:none;
+
+    font-size:30px;
+
+    font-weight:800;
+
+    color:#4f46e5;
+}
+
+.logout-btn{
+
+    text-decoration:none;
+
+    background:#ef4444;
+
+    color:white;
+
+    padding:10px 22px;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    transition:0.3s;
+}
+
+.logout-btn:hover{
+
+    background:#dc2626;
+
+    transform:translateY(-2px);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.report-container{
+
+    width:90%;
+
+    margin:40px auto;
+}
+
+.report-title{
+
+    font-size:42px;
+
+    color:#222;
+
+    margin-bottom:35px;
+
+    font-weight:800;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.report-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:25px;
+
+    margin-bottom:30px;
+}
+
+.report-card{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:24px;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,0.08);
+
+    transition:0.3s;
+}
+
+.report-card:hover{
+
+    transform:translateY(-5px);
+}
+
+.report-card h3{
+
+    color:#666;
+
+    margin-bottom:15px;
+
+    font-size:18px;
+}
+
+.report-card h1{
+
+    color:#4f46e5;
+
+    font-size:42px;
+}
+
+.report-card h2{
+
+    color:#222;
+
+    margin-bottom:8px;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-card{
+
+    background:white;
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.08);
+}
+
+.table-header{
+
+    padding:25px 30px;
+
+    border-bottom:1px solid #eee;
+}
+
+.table-header h2{
+
+    color:#222;
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+}
+
+th{
+
+    background:#4f46e5;
+
+    color:white;
+
+    padding:18px;
+
+    font-size:15px;
+}
+
+td{
+
+    padding:16px;
+
+    text-align:center;
+
+    border-bottom:1px solid #eee;
+
+    color:#444;
+}
+
+tr:hover{
+
+    background:#f8f9ff;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+    .report-container{
+
+        width:95%;
+    }
+
+    .teacher-navbar{
+
+        padding:20px;
+    }
+
+    .report-title{
+
+        font-size:32px;
+    }
+
+    table{
+
+        font-size:14px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="teacher-navbar">
+
+    <a href="/teacher/teacher_dashboard/"
+       class="teacher-logo">
+
+       KLAP
+
+    </a>
+
+    <a href="/logout/"
+       class="logout-btn">
+
+       Logout
+
+    </a>
+
+</div>
+
+
+
+<!-- =========================
+     REPORT
+========================= -->
+
+<div class="report-container">
+
+    <h1 class="report-title">
+        📊 Teacher Analytics Dashboard
+    </h1>
+
+
+
+    <!-- TOP CARDS -->
+
+    <div class="report-grid">
+
+        <div class="report-card">
+
+            <h3>Total Students</h3>
+
+            <h1>
+                {{ total_students }}
+            </h1>
+
+        </div>
+
+
+        <div class="report-card">
+
+            <h3>Total Tests</h3>
+
+            <h1>
+                {{ total_tests }}
+            </h1>
+
+        </div>
+
+
+        <div class="report-card">
+
+            <h3>Class Average</h3>
+
+            <h1>
+                {{ class_avg }}%
+            </h1>
+
+        </div>
+
+
+        <div class="report-card">
+
+            <h3>Highest Score</h3>
+
+            <h1>
+                {{ highest_score }}%
+            </h1>
+
+        </div>
+
+
+        <div class="report-card">
+
+            <h3>Lowest Score</h3>
+
+            <h1>
+                {{ lowest_score }}%
+            </h1>
+
+        </div>
+
+
+        <div class="report-card">
+
+            <h3>🏆 Top Performer</h3>
+
+            {% if top_performer %}
+
+                <h2>
+                    {{ top_performer.student.name }}
+                </h2>
+
+                <p>
+                    {{ top_performer.percentage }}%
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="report-card">
+
+            <h3>⚠ Weak Performer</h3>
+
+            {% if weak_performer %}
+
+                <h2>
+                    {{ weak_performer.student.name }}
+                </h2>
+
+                <p>
+                    {{ weak_performer.percentage }}%
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- TABLE -->
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <h2>
+                📚 Individual Student Progress
+            </h2>
+
+        </div>
+
+        <table>
+
+            <tr>
+
+                <th>Student Name</th>
+
+                <th>Tests Given</th>
+
+                <th>Average %</th>
+
+                <th>Best Score</th>
+
+            </tr>
+
+
+            {% for s in student_progress %}
+
+            <tr>
+
+                <td>
+                    {{ s.name }}
+                </td>
+
+                <td>
+                    {{ s.tests }}
+                </td>
+
+                <td>
+                    {{ s.average }}%
+                </td>
+
+                <td>
+                    {{ s.best }}%
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Reports</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/manager.css' %}">
+
+    <style>
+
+        .student-section{
+
+            background:white;
+
+            padding:25px;
+
+            border-radius:20px;
+
+            margin-bottom:30px;
+
+            box-shadow:
+            0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .student-title{
+
+            font-size:28px;
+
+            margin-bottom:10px;
+
+            color:#4f46e5;
+        }
+
+        .student-summary{
+
+            display:flex;
+
+            gap:20px;
+
+            flex-wrap:wrap;
+
+            margin-bottom:20px;
+        }
+
+        .summary-box{
+
+            background:#f5f7ff;
+
+            padding:12px 18px;
+
+            border-radius:12px;
+
+            font-weight:600;
+        }
+
+        .test-card{
+
+            background:#fafafa;
+
+            border-left:5px solid #6a5af9;
+
+            padding:18px;
+
+            border-radius:12px;
+
+            margin-bottom:15px;
+        }
+
+        .test-title{
+
+            font-size:18px;
+
+            margin-bottom:10px;
+
+            font-weight:bold;
+        }
+
+        .excellent{
+
+            color:green;
+
+            font-weight:bold;
+        }
+
+        .good{
+
+            color:#0d6efd;
+
+            font-weight:bold;
+        }
+
+        .average{
+
+            color:orange;
+
+            font-weight:bold;
+        }
+
+        .poor{
+
+            color:red;
+
+            font-weight:bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="manager-navbar">
+
+    <a href="{% url 'manager_dashboard' %}"
+       class="manager-logo">
+
+        KLAP
+
+    </a>
+
+    <div class="nav-links">
+
+       <a href="{% url 'logout' %}"
+           class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     MAIN CONTAINER
+========================= -->
+
+<div class="container">
+
+
+    <!-- TITLE -->
+
+    <div class="manager-header">
+
+        <h2 class="title">
+
+            📋 Full Learner Reports
+
+        </h2>
+
+    </div>
+
+
+
+    <!-- REPORTS -->
+
+    {% for r in reports %}
+
+    <div class="student-section">
+
+        <h2 class="student-title">
+
+            👶 {{ r.name }}
+
+        </h2>
+
+
+        <!-- SUMMARY -->
+
+        <div class="student-summary">
+
+            <div class="summary-box">
+
+                📝 Tests:
+                {{ r.tests_given }}
+
+            </div>
+
+            <div class="summary-box">
+
+                📊 Average:
+                {{ r.average }}%
+
+            </div>
+
+            <div class="summary-box">
+
+                🏆 Best:
+                {{ r.best }}%
+
+            </div>
+
+            <div class="summary-box">
+
+                ⭐ Performance:
+
+                {% if r.performance == "Excellent" %}
+
+                    <span class="excellent">
+
+                        {{ r.performance }}
+
+                    </span>
+
+                {% elif r.performance == "Good" %}
+
+                    <span class="good">
+
+                        {{ r.performance }}
+
+                    </span>
+
+                {% elif r.performance == "Average" %}
+
+                    <span class="average">
+
+                        {{ r.performance }}
+
+                    </span>
+
+                {% else %}
+
+                    <span class="poor">
+
+                        {{ r.performance }}
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- INDIVIDUAL TESTS -->
+
+        {% for test in r.tests %}
+
+        <div class="test-card">
+
+            <div class="test-title">
+
+                📄 Test {{ forloop.counter }}/{{ r.tests_given }}
+
+            </div>
+
+            <p>
+
+                📊 Score:
+                <b>{{ test.score }}%</b>
+
+            </p>
+
+            <p>
+
+                📅 Date:
+                <b>{{ test.created_at|date:"d M Y" }}</b>
+
+            </p>
+
+        </div>
+
+        {% empty %}
+
+        <div class="test-card">
+
+            No Tests Given
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% empty %}
+
+    <p>No reports available</p>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

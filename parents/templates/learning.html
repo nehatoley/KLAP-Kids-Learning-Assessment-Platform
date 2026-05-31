@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html>
+
+<head>
+
+    <title>Learning</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/parent.css' %}">
+
+    <style>
+
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+
+    body{
+        font-family:'Segoe UI',sans-serif;
+
+        background:
+        linear-gradient(
+            135deg,
+            #eef2ff 0%,
+            #dbeafe 40%,
+            #ede9fe 100%
+        );
+
+        min-height:100vh;
+    }
+
+
+    /* =========================
+       MAIN CONTAINER
+    ========================= */
+
+    .container{
+
+        width:90%;
+
+        margin:50px auto;
+
+        text-align:center;
+    }
+
+    .container h2{
+
+        font-size:38px;
+
+        color:#222;
+
+        margin-bottom:10px;
+    }
+
+    .subtitle{
+
+        color:#666;
+
+        font-size:18px;
+
+        margin-bottom:40px;
+    }
+
+
+    /* =========================
+       GRID
+    ========================= */
+
+    .grid{
+
+        display:grid;
+
+        grid-template-columns:
+        repeat(auto-fit,minmax(180px,1fr));
+
+        gap:25px;
+    }
+
+
+    /* =========================
+       CARD
+    ========================= */
+
+    .card{
+
+        background:white;
+
+        padding:30px 20px;
+
+        border-radius:24px;
+
+        box-shadow:
+        0 10px 25px rgba(79,70,229,0.1);
+
+        transition:0.3s;
+    }
+
+    .card:hover{
+
+        transform:translateY(-6px);
+
+        box-shadow:
+        0 14px 30px rgba(79,70,229,0.2);
+    }
+
+    .emoji{
+
+        font-size:55px;
+
+        margin-bottom:15px;
+    }
+
+    .name{
+
+        font-size:20px;
+
+        font-weight:700;
+
+        color:#333;
+    }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="parent-navbar">
+
+    <a href="/parent/parent-dashboard/"
+       class="parent-logo">
+
+        KLAP
+
+    </a>
+
+    <a href="/logout/"
+       class="logout-btn">
+
+        Logout
+
+    </a>
+
+</div>
+
+
+<!-- MAIN SECTION -->
+
+<div class="container">
+
+    <h2>
+        📚 {{ child.name }}'s Learning
+    </h2>
+
+    <div class="subtitle">
+
+        Explore fun learning cards
+
+    </div>
+
+
+    <div class="grid">
+
+        {% for item in data %}
+
+            <div class="card">
+
+                <div class="emoji">
+                    {{ item.emoji }}
+                </div>
+
+                <div class="name">
+                    {{ item.name }}
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

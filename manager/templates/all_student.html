@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Students</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/manager.css' %}">
+
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="manager-navbar">
+
+    <a href="{% url 'manager_dashboard' %}"
+       class="manager-logo">
+
+        KLAP
+
+    </a>
+
+    <div class="nav-links">
+
+        <a href="{% url 'logout' %}"
+           class="logout-btn">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     MAIN CONTAINER
+========================= -->
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="manager-header">
+
+        <h2 class="title">
+
+            👶 Total Learners
+
+        </h2>
+
+        <div class="count-box">
+
+            Total Learners: {{ total_students }}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         TEACHER DISTRIBUTION
+    ========================= -->
+
+    <div class="distribution-box">
+
+        <h3>
+            👩‍🏫 Teacher Wise Students
+        </h3>
+
+        <table class="distribution-table">
+
+            <tr>
+
+                <th>Teacher</th>
+
+                <th>Total Students</th>
+
+            </tr>
+
+            {% for teacher in teacher_data %}
+
+            <tr>
+
+                <td>
+
+                    {{ teacher.username }}
+
+                </td>
+
+                <td>
+
+                    {{ teacher.total_students }}
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="2">
+
+                    No Teacher Data
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+
+
+    <!-- =========================
+         PARENT DISTRIBUTION
+    ========================= -->
+
+    <div class="distribution-box">
+
+        <h3>
+            👨‍👩‍👧 Parent Wise Children
+        </h3>
+
+        <table class="distribution-table">
+
+            <tr>
+
+                <th>Parent</th>
+
+                <th>Total Children</th>
+
+            </tr>
+
+            {% for parent in parent_data %}
+
+            <tr>
+
+                <td>
+
+                    {{ parent.username }}
+
+                </td>
+
+                <td>
+
+                    {{ parent.total_children }}
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="2">
+
+                    No Parent Data
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+
+
+
+
+</div>
+
+</body>
+</html>

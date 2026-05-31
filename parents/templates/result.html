@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, #74ebd5, #ACB6E5);
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 100px;
+            display: inline-block;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .score {
+            font-size: 30px;
+            color: green;
+            margin: 10px 0;
+        }
+
+        .btn {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="card">
+    <h2>🎉 Quiz Completed</h2>
+
+    <p>👶 {{ child.name }}</p>
+
+    <p>Total Questions: {{ total }}</p>
+    <p>Correct Answers: {{ correct }}</p>
+
+    <div class="score">
+        Score: {{ score }}%
+    </div>
+
+    <a href="{% url 'parent_dashboard' %}" class="btn">
+    ⬅ Back to Dashboard</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+
+/* auth.css */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f7f9fc;
+}
+
+.auth-container{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+}
+
+/* LEFT */
+
+.auth-left{
+    width:50%;
+    background:linear-gradient(to bottom right,#6a5af9,#4f6ef7);
+    color:white;
+    padding:60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+}
+
+.logo{
+    position:absolute;
+    top:30px;
+    left:40px;
+    color:white;
+    text-decoration:none;
+    font-size:32px;
+    font-weight:800;
+}
+
+.auth-left h1{
+    font-size:55px;
+    margin-bottom:20px;
+}
+
+.auth-left p{
+    font-size:18px;
+    line-height:1.8;
+    max-width:500px;
+}
+
+.auth-left img{
+    width:450px;
+    margin-top:40px;
+}
+
+/* RIGHT */
+
+.auth-right{
+    width:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+}
+
+.auth-card{
+    width:450px;
+    background:white;
+    padding:45px;
+    border-radius:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.auth-card h2{
+    text-align:center;
+    margin-bottom:30px;
+    font-size:36px;
+    color:#111;
+}
+
+.auth-card form{
+    display:flex;
+    flex-direction:column;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:8px;
+    font-size:15px;
+    font-weight:600;
+    color:#333;
+}
+
+.auth-card input,
+.auth-card select{
+    width:100%;
+    padding:15px;
+    border:none;
+    background:#f1f4ff;
+    border-radius:14px;
+    font-size:15px;
+    color:#111;
+}
+
+.auth-card input:focus,
+.auth-card select:focus{
+    outline:none;
+    border:2px solid #6a5af9;
+}
+
+.auth-card button{
+    background:linear-gradient(to right,#6a5af9,#4f6ef7);
+    color:white;
+    border:none;
+    padding:16px;
+    border-radius:14px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.bottom-text{
+    margin-top:25px;
+    text-align:center;
+    color:#555;
+}
+
+.bottom-text a{
+    color:#5a4df3;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.error-box{
+    background:#ffe5e5;
+    color:#d8000c;
+    padding:14px;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-size:14px;
+    font-weight:600;
+}
+
+.error-box p{
+    margin:5px 0;
+}

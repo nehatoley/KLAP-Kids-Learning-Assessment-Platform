@@ -1,129 +1,634 @@
 <!DOCTYPE html>
-<html>
+{% load static %}
+
+<html lang="en">
+
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Smart Scanner</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/parent.css' %}">
+
+    <style>
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body.camera-body{
+
+            font-family:'Segoe UI',sans-serif;
+
+            background:
+            linear-gradient(
+                135deg,
+                #eef2ff 0%,
+                #dbeafe 40%,
+                #ede9fe 100%
+            );
+
+            min-height:100vh;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .parent-navbar{
+
+            width:100%;
+
+            background:white;
+
+            padding:20px 60px;
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            box-shadow:0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .parent-logo{
+
+            text-decoration:none;
+
+            font-size:30px;
+
+            font-weight:800;
+
+            color:#4f46e5;
+        }
+
+        .logout-btn{
+
+            text-decoration:none;
+
+            background:#ff4d4d;
+
+            color:white;
+
+            padding:12px 24px;
+
+            border-radius:12px;
+
+            font-size:14px;
+
+            font-weight:700;
+
+            transition:0.3s;
+        }
+
+        .logout-btn:hover{
+
+            background:#dc2626;
+
+            transform:translateY(-2px);
+        }
+
+        /* =========================
+           CAMERA SECTION
+        ========================= */
+
+        .camera-container{
+
+            width:100%;
+
+            min-height:calc(100vh - 90px);
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            padding:40px;
+        }
+
+        .camera-card{
+
+            width:760px;
+
+            background:white;
+
+            border-radius:32px;
+
+            padding:40px;
+
+            box-shadow:
+            0 12px 35px rgba(79,70,229,0.15);
+
+            text-align:center;
+        }
+
+        .camera-card h2{
+
+            font-size:42px;
+
+            color:#4f46e5;
+
+            margin-bottom:15px;
+        }
+
+        .camera-category{
+
+            font-size:20px;
+
+            color:#555;
+
+            margin-bottom:30px;
+        }
+
+        .camera-category span{
+
+            color:#f59e0b;
+
+            font-weight:700;
+        }
+
+        /* =========================
+           VIDEO AREA
+        ========================= */
+
+        .video-wrapper{
+
+            width:100%;
+
+            position:relative;
+
+            border-radius:28px;
+
+            overflow:hidden;
+
+            background:black;
+
+            border:4px solid #6a5af9;
+
+            box-shadow:
+            0 10px 30px rgba(79,70,229,0.25);
+        }
+
+        video{
+
+            width:100%;
+
+            height:520px;
+
+            object-fit:cover;
+
+            display:block;
+        }
+
+        /* =========================
+           SCAN LINE
+        ========================= */
+
+        .scan-line{
+
+            position:absolute;
+
+            top:0;
+
+            left:0;
+
+            width:100%;
+
+            height:5px;
+
+            background:#00d9ff;
+
+            animation:scan 2s linear infinite;
+        }
+
+        @keyframes scan{
+
+            0%{
+                top:0;
+            }
+
+            100%{
+                top:100%;
+            }
+        }
+
+        /* =========================
+           OVERLAY
+        ========================= */
+
+        #overlay{
+
+            position:absolute;
+
+            top:0;
+
+            left:0;
+
+            width:100%;
+
+            height:100%;
+
+            display:none;
+
+            justify-content:center;
+
+            align-items:center;
+
+            background:rgba(0,0,0,0.55);
+
+            backdrop-filter:blur(4px);
+
+            color:white;
+
+            font-size:34px;
+
+            font-weight:700;
+
+            cursor:pointer;
+
+            z-index:10;
+        }
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        #result{
+
+            margin-top:28px;
+
+            min-height:50px;
+
+            font-size:32px;
+
+            font-weight:800;
+
+            letter-spacing:1px;
+
+            transition:0.3s;
+
+            padding:18px;
+
+            border-radius:18px;
+
+            text-align:center;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width:900px){
+
+            .camera-card{
+
+                width:100%;
+                padding:25px;
+            }
+
+            video{
+
+                height:400px;
+            }
+
+            .camera-card h2{
+
+                font-size:32px;
+            }
+
+            #result{
+
+                font-size:24px;
+            }
+
+            .parent-navbar{
+
+                padding:20px;
+            }
+        }
+
+    </style>
+
 </head>
-<body>
 
-<h2>📷 Show an object</h2>
+<body class="camera-body">
 
-<div style="position: relative; width: 400px;">
-    <video id="video" width="400" autoplay></video>
+<!-- =========================
+     NAVBAR
+========================= -->
 
-    <!-- 🔥 Overlay -->
-    <div id="overlay" style="
-        position:absolute;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        background:rgba(0,0,0,0.5);
-        color:white;
-        font-size:20px;
-        cursor:pointer;
-        display:none;
-    ">
-        Tap to Scan Again
-    </div>
+<div class="parent-navbar">
+
+    {% if mode == "parent" %}
+
+        <a href="/parent/parent-dashboard/"
+           class="parent-logo">
+
+            KLAP
+
+        </a>
+
+    {% else %}
+
+        <a href="/teacher/teacher_dashboard/"
+           class="parent-logo">
+
+            KLAP
+
+        </a>
+
+    {% endif %}
+
+    <a href="/logout/"
+       class="logout-btn">
+
+        Logout
+
+    </a>
+
 </div>
 
-<p id="result"></p>
+
+<!-- =========================
+     CAMERA SECTION
+========================= -->
+
+<div class="camera-container">
+
+    <div class="camera-card">
+
+        <h2>📷 Smart Scanner</h2>
+
+        <h3 class="camera-category">
+
+            Selected Category :
+
+            <span>
+
+                {{ category|title }}
+
+            </span>
+
+        </h3>
+
+
+        <div class="video-wrapper">
+
+            <video
+                id="video"
+                autoplay>
+            </video>
+
+            <!-- SCAN LINE -->
+
+            <div class="scan-line"></div>
+
+            <!-- OVERLAY -->
+
+            <div id="overlay">
+
+                🔄 Tap to Scan Again
+
+            </div>
+
+        </div>
+
+        <p id="result"></p>
+
+    </div>
+
+</div>
+
+
 
 <script>
-const video = document.getElementById('video');
-const resultText = document.getElementById('result');
-const overlay = document.getElementById("overlay");
+
+const video =
+    document.getElementById('video');
+
+const resultText =
+    document.getElementById('result');
+
+const overlay =
+    document.getElementById("overlay");
 
 let stream = null;
 
-// 🎧 Speak
+
+// 🎧 SPEAK
+
 function speak(text) {
-    const speech = new SpeechSynthesisUtterance(text);
+
+    const speech =
+        new SpeechSynthesisUtterance(text);
+
     speech.lang = "en-US";
+
     window.speechSynthesis.speak(speech);
 }
 
+
 // ▶ START CAMERA + AUTO SCAN
+
 function startCamera() {
-    navigator.mediaDevices.getUserMedia({ video: true })
+
+    navigator.mediaDevices.getUserMedia({
+
+        video: true
+
+    })
+
     .then(s => {
+
         stream = s;
+
         video.srcObject = stream;
 
-        // 🔥 auto scan after 3 sec
         setTimeout(() => {
+
             captureAndSend();
+
         }, 3000);
+
     });
 }
 
+
 // ⛔ STOP CAMERA
+
 function stopCamera() {
+
     if (stream) {
-        stream.getTracks().forEach(track => track.stop());
+
+        stream.getTracks().forEach(track =>
+            track.stop()
+        );
+
         video.srcObject = null;
     }
 }
 
-// 📸 Capture + send
+
+// 📸 CAPTURE + SEND
+
 function captureAndSend() {
 
-    const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    const canvas =
+        document.createElement('canvas');
 
-    canvas.getContext('2d').drawImage(video, 0, 0);
+    canvas.width =
+        video.videoWidth;
+
+    canvas.height =
+        video.videoHeight;
+
+    canvas
+        .getContext('2d')
+        .drawImage(video, 0, 0);
 
     canvas.toBlob(blob => {
-        const formData = new FormData();
-        formData.append("image", blob, "frame.jpg");
 
-        fetch("/api/", {
+        const formData =
+            new FormData();
+
+        formData.append(
+            "image",
+            blob,
+            "frame.jpg"
+        );
+
+        formData.append(
+            "category",
+            "{{ category }}"
+        );
+
+        formData.append(
+            "child_id",
+            "{{ child_id }}"
+        );
+
+        fetch("/detect/api/", {
+
             method: "POST",
+
             body: formData
+
         })
+
         .then(res => res.json())
+
         .then(data => {
 
+            console.log(data);
+
             if (data.detected.length > 0) {
-                let obj = data.detected.join(", ");
 
-                resultText.innerText = "Detected: " + obj;
-                speak("This is " + obj);
+                let obj =
+                    data.detected.join(", ");
 
-                stopCamera();          // 🔥 stop after detect
-                showOverlay();         // 🔥 show tap screen
-            } else {
-                    speak("No object detected");
+                resultText.innerText =
+                    "🌟 Yay! I found: " + obj;
 
-                    stopCamera();     // camera band
-                    showOverlay();    // tap to scan again
-                  }
+                resultText.style.background =
+                    "#fff4e6";
+
+                resultText.style.color =
+                    "#ff8c00";
+
+                resultText.style.border =
+                    "3px solid #ffd08a";
+
+                speak(
+                    "This is " + obj
+                );
+
+                stopCamera();
+
+                showOverlay();
+
+            }
+
+            else {
+
+                resultText.innerText =
+                    "🧸 Oops! Try showing another object";
+
+                resultText.style.background =
+                    "#ffe8f3";
+
+                resultText.style.color =
+                    "#ff4f9a";
+
+                resultText.style.border =
+                    "3px solid #ffb6d5";
+
+                speak(
+                    "No object detected"
+                );
+
+                stopCamera();
+
+                showOverlay();
+            }
 
         });
+
     });
 }
 
+
 // 🔥 SHOW TAP SCREEN
+
 function showOverlay() {
-    overlay.style.display = "flex";
+
+    overlay.style.display =
+        "flex";
 }
 
+
 // 🔥 TAP TO SCAN AGAIN
+
 overlay.onclick = function() {
-    overlay.style.display = "none";
+
+    overlay.style.display =
+        "none";
+
+    resultText.innerText = "";
+
+    resultText.style.background = "transparent";
+
+    resultText.style.border = "none";
+
     startCamera();
 };
 
+
 // 🚀 AUTO START
+
 window.onload = function() {
-    speak("Show an object");
+
+    speak(
+        "Show the object"
+    );
+
     startCamera();
 };
+
 </script>
 
 </body>
+
 </html>

@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Teacher Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/teacher.css' %}">
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="teacher-navbar">
+
+    <a href="/teacher/teacher_dashboard/"
+       class="teacher-logo">
+
+       KLAP
+
+    </a>
+
+    <a href="/logout/"
+       class="logout-btn">
+
+       Logout
+
+    </a>
+
+</div>
+
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<div class="teacher-container">
+
+    <div class="teacher-header">
+
+        <h1>
+            👩‍🏫 Teacher Dashboard
+        </h1>
+         <p>
+        Welcome, {{ request.user.username }}
+        </p>
+
+        <p>
+            Manage students, assessments and AI learning tools.
+        </p>
+
+    </div>
+
+
+
+    <!-- =========================
+         AVG SCORE
+    ========================= -->
+
+    <div class="avg-card">
+
+        📈 Class Average Score :
+        {{ avg_score }}%
+
+    </div>
+
+
+
+    <!-- =========================
+         SMART SCANNER
+    ========================= -->
+
+    <div class="scanner-section">
+
+        <div class="scanner-left">
+
+            <h2>
+                📷 AI Smart Scanner
+            </h2>
+
+            <p>
+                Scan fruits, animals and vegetables
+                instantly using AI learning.
+            </p>
+
+            <div class="scanner-controls">
+
+                <select
+                    class="scanner-select"
+                    onchange="updateScanLink(this)"
+                >
+
+                    <option value="">
+                        Select Category
+                    </option>
+
+                    <option value="fruit">
+                        🍎 Fruits
+                    </option>
+
+                    <option value="animal">
+                        🐶 Animals
+                    </option>
+
+                    <option value="vegetable">
+                        🥦 Vegetables
+                    </option>
+
+                </select>
+
+
+                <a
+                    href="#"
+                    id="scan-btn"
+                    class="scanner-btn disabled-btn"
+                >
+
+                    🚀 Start Scanning
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="scanner-right">
+
+            📸
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         QUICK ACTIONS
+    ========================= -->
+
+    <div class="quick-actions">
+
+        <a href="{% url 'add_student' %}"
+           class="quick-btn">
+
+           ➕ Add Student
+
+        </a>
+
+
+        <a href="{% url 'student_list' %}"
+           class="quick-btn">
+
+           👨‍🎓 View Students
+
+        </a>
+
+
+        <a href="{% url 'report' %}"
+           class="quick-btn">
+
+           📊 Reports
+
+        </a>
+
+    </div>
+
+
+
+    <!-- =========================
+         INFO PANELS
+    ========================= -->
+
+    <div class="panel-row">
+
+
+        <!-- RECENT ACTIVITY -->
+
+        <div class="panel">
+
+            <h3>
+                🔔 Recent Activity
+            </h3>
+
+            <ul>
+
+                {% for activity in activities %}
+
+                    <li>
+                        {{ activity.message }}
+                    </li>
+
+                {% empty %}
+
+                    <li>
+                        No recent activity
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+
+
+        <!-- SMART ALERTS -->
+
+        <div class="panel">
+
+            <h3>
+                ⚠️ Smart Alerts
+            </h3>
+
+
+            <h4 style="color:red;">
+                🔴 Need Practice
+            </h4>
+
+            <ul>
+
+                {% for s in weak_students %}
+
+                    <li>
+                        {{ s.name }}
+                        ({{ s.last_score }}%)
+                    </li>
+
+                {% empty %}
+
+                    <li>
+                        No weak students 🎉
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+
+
+            <h4 style="color:green;">
+                🟢 Excellent Students
+            </h4>
+
+            <ul>
+
+                {% for s in upgrade_students %}
+
+                    <li>
+                        {{ s.name }}
+                        ({{ s.last_score }}%)
+                    </li>
+
+                {% empty %}
+
+                    <li>
+                        No top performers yet
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+
+
+            <h4 style="color:orange;">
+                🟡 Not Attempted Test
+            </h4>
+
+            <ul>
+
+                {% for s in inactive_students %}
+
+                    <li>
+                        {{ s.name }}
+                    </li>
+
+                {% empty %}
+
+                    <li>
+                        All students attempted test 👏
+                    </li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+function updateScanLink(selectBox){
+
+    const category =
+        selectBox.value;
+
+    const scanBtn =
+        document.getElementById(
+            "scan-btn"
+        );
+
+    if(category){
+
+        scanBtn.href =
+            "/detect/camera/?category="
+            + category;
+
+        scanBtn.classList.remove(
+            "disabled-btn"
+        );
+    }
+
+    else{
+
+        scanBtn.href = "#";
+
+        scanBtn.classList.add(
+            "disabled-btn"
+        );
+    }
+}
+
+</script>
+
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 69
+names: ['Bear', 'Brown-bear', 'Bull', 'Butterfly', 'Camel', 'Caterpillar', 'Chicken', 'Crab', 'Crocodile', 'Deer', 'Duck', 'Eagle', 'Elephant', 'Fish', 'Fox', 'Frog', 'Giraffe', 'Goat', 'Goldfish', 'Hamster', 'Harbor-seal', 'Hedgehog', 'Hippopotamus', 'Horse', 'Jaguar', 'Jellyfish', 'Kangaroo', 'Koala', 'Ladybug', 'Leopard', 'Lion', 'Lizard', 'Lynx', 'Magpie', 'Monkey', 'Mouse', 'Mule', 'Ostrich', 'Owl', 'Panda', 'Parrot', 'Penguin', 'Pig', 'Polar-bear', 'Rabbit', 'Raccoon', 'Raven', 'Red-panda', 'Rhinoceros', 'Scorpion', 'Sea-lion', 'Sea-turtle', 'Seahorse', 'Shark', 'Sheep', 'Snail', 'Snake', 'Sparrow', 'Spider', 'Squirrel', 'Starfish', 'Swan', 'Tiger', 'Tortoise', 'Turkey', 'Whale', 'Woodpecker', 'Worm', 'Zebra']
+
+roboflow:
+  workspace: sakshis-workspace-73rw6
+  project: animal-detection-85p4k-e2hmh
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/sakshis-workspace-73rw6/animal-detection-85p4k-e2hmh/dataset/1

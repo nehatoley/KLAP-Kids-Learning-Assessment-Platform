@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - KLAP</title>
+
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+
+<body>
+
+<div class="auth-container">
+
+    <div class="auth-left">
+
+        <a href="/" class="logo">
+            KLAP
+        </a>
+
+        <h1>
+            Join KLAP Today 🚀
+        </h1>
+
+        <p>
+            Create your account and start smart AI-powered learning.
+        </p>
+
+        <img src="{% static 'images/kids2.jpeg' %}">
+
+    </div>
+
+    <div class="auth-right">
+
+        <div class="auth-card">
+
+            <h2>Create Account</h2>
+
+            <!-- ERROR BOX -->
+
+            {% if form.errors %}
+
+            <div class="error-box">
+
+                {% for field in form %}
+
+                    {% for error in field.errors %}
+
+                        <p>{{ error }}</p>
+
+                    {% endfor %}
+
+                {% endfor %}
+
+                {% for error in form.non_field_errors %}
+
+                    <p>{{ error }}</p>
+
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="input-group">
+                    <label>First Name</label>
+                    {{ form.first_name }}
+                </div>
+
+                <div class="input-group">
+                    <label>Last Name</label>
+                    {{ form.last_name }}
+                </div>
+
+                <div class="input-group">
+                    <label>Username</label>
+                    {{ form.username }}
+                </div>
+
+                <div class="input-group">
+                    <label>Email</label>
+                    {{ form.email }}
+                </div>
+
+                <div class="input-group">
+                    <label>Role</label>
+                    {{ form.role }}
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    {{ form.password1 }}
+                </div>
+
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                    {{ form.password2 }}
+                </div>
+
+                <button type="submit">
+                    Register
+                </button>
+
+            </form>
+
+            <p class="bottom-text">
+                Already have an account?
+                <a href="/login/">Login</a>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

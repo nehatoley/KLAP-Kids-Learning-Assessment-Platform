@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>
+    Student List
+</title>
+
+<link rel="stylesheet"
+      href="{% static 'css/teacher.css' %}">
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="teacher-navbar">
+
+    <a href="/teacher/teacher_dashboard/"
+       class="teacher-logo">
+
+        KLAP
+
+    </a>
+
+    <a href="/logout/"
+       class="logout-btn">
+
+        Logout
+
+    </a>
+
+</div>
+
+
+
+<!-- =========================
+     PAGE
+========================= -->
+
+<div class="teacher-container">
+
+
+    <!-- HEADER -->
+
+    <div class="teacher-header">
+
+        <h1>
+            👨‍🎓 Students
+        </h1>
+
+        <p>
+            Manage all students and start assessments
+        </p>
+
+    </div>
+
+
+
+    <!-- TOP BAR -->
+
+    <div class="student-topbar">
+
+        <a href="{% url 'add_student' %}"
+           class="add-student-btn">
+
+            ➕ Add Student
+
+        </a>
+
+
+        <form method="GET"
+              class="student-search">
+
+            <input type="text"
+                   name="q"
+                   placeholder="Search student...">
+
+            <button type="submit">
+
+                Search
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+
+    <!-- STUDENT TABLE -->
+
+    <div class="student-table-card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Age
+                    </th>
+
+                    <th>
+                        Class
+                    </th>
+
+                    <th>
+                        Actions
+                    </th>
+
+                    <th>
+                        Assessment
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for student in students %}
+
+                <tr>
+
+                    <td>
+                        {{ student.name }}
+                    </td>
+
+                    <td>
+                        {{ student.age }}
+                    </td>
+
+                    <td>
+                        {{ student.student_class }}
+                    </td>
+
+
+                    <!-- ACTIONS -->
+
+                    <td>
+
+                        <div class="table-actions">
+
+                            <a href="{% url 'edit_student' student.id %}"
+                               class="edit-btn">
+
+                                Edit
+
+                            </a>
+
+                            <a href="{% url 'delete_student' student.id %}"
+                               class="delete-btn">
+
+                                Delete
+
+                            </a>
+
+                        </div>
+
+                    </td>
+
+
+
+                    <!-- ASSESSMENT -->
+
+                    <td>
+
+                        <a href="{% url 'start_learning' student.id %}"
+                           class="assessment-btn">
+
+                            🧠 Start Assessment
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="5"
+                        class="empty-row">
+
+                        No students added yet.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

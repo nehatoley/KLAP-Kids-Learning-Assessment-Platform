@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="hero">
+
+    <div class="hero-text">
+
+        <h1>
+            Smart Learning <br>
+            Starts with <span>KLAP</span>
+        </h1>
+
+        <p>
+            An AI-powered learning & assessment platform
+            for kids to explore, learn and grow every day.
+        </p>
+
+        <div class="hero-btn">
+            <a href="/register/">
+                Get Started →
+            </a>
+        </div>
+
+    </div>
+
+    <div class="hero-img">
+        <img src="{% static 'images/kids1.jpeg' %}">
+    </div>
+
+</div>
+
+
+<div class="features" id="features">
+
+    <h2>
+        Why Choose <span>KLAP</span>?
+    </h2>
+
+    <div class="feature-boxes">
+
+        <div class="box">
+            <h4>🤖 AI Object Scanner</h4>
+            <p>Scan fruits & animals using AI</p>
+        </div>
+
+        <div class="box">
+            <h4>📊 Smart Assessments</h4>
+            <p>Interactive quizzes for kids</p>
+        </div>
+
+        <div class="box">
+            <h4>📈 Track Progress</h4>
+            <p>Monitor learning easily</p>
+        </div>
+
+        <div class="box">
+            <h4>😊 Fun Learning</h4>
+            <p>Engaging and effective learning</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="cta" id="about">
+
+    <img src="{% static 'images/kids2.jpeg' %}">
+
+    <div class="cta-text">
+
+        <h2>
+            Learning Made Fun & Effective
+        </h2>
+
+        <p>
+            KLAP combines AI, interactive content
+            and smart assessments to build strong learning.
+        </p>
+
+        <a href="#contact">
+            Learn More →
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="how-section" id="how">
+
+    <h2>How It Works</h2>
+
+    <div class="feature-boxes">
+
+        <div class="box">
+            <h4>1️⃣ Register</h4>
+            <p>Create account as parent or teacher</p>
+        </div>
+
+        <div class="box">
+            <h4>2️⃣ Add Child</h4>
+            <p>Add children and manage learning</p>
+        </div>
+
+        <div class="box">
+            <h4>3️⃣ Scan Objects</h4>
+            <p>AI detects objects instantly</p>
+        </div>
+
+        <div class="box">
+            <h4>4️⃣ Assess Progress</h4>
+            <p>Track quizzes and weak areas</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="contact-section" id="contact">
+
+    <h2>Contact Us</h2>
+
+    <p>Email: klaplearning@gmail.com</p>
+
+    <p>Phone: +91 9876543210</p>
+
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>
+    Edit Student
+</title>
+
+<link rel="stylesheet"
+      href="{% static 'css/teacher.css' %}">
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="teacher-navbar">
+
+    <a href="/teacher/teacher_dashboard/"
+       class="teacher-logo">
+
+        KLAP
+
+    </a>
+
+    <a href="/logout/"
+       class="logout-btn">
+
+        Logout
+
+    </a>
+
+</div>
+
+
+
+<!-- =========================
+     FORM
+========================= -->
+
+<div class="teacher-form-container">
+
+    <div class="teacher-form-card">
+
+        <h1>
+            ✏️ Edit Student
+        </h1>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- NAME -->
+
+            <div class="input-group">
+
+                <label>
+                    Student Name
+                </label>
+
+                {{ form.name }}
+
+            </div>
+
+
+
+            <!-- AGE -->
+
+            <div class="input-group">
+
+                <label>
+                    Age
+                </label>
+
+                {{ form.age }}
+
+            </div>
+
+
+
+            <!-- CLASS -->
+
+            <div class="input-group">
+
+                <label>
+                    Class
+                </label>
+
+                {{ form.student_class }}
+
+            </div>
+
+
+
+            <!-- BUTTON -->
+
+            <button type="submit"
+                    class="save-btn">
+
+                Update Student
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
